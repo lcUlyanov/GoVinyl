@@ -1,0 +1,19 @@
+# ignore build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go build cache
+*.out
+
+# vendor directory
+/vendor
+
+# editor temp files
+*~
+.DS_Store
+
+# modules
+**/go.sum

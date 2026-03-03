@@ -1,0 +1,41 @@
+services:
+  backend:
+    image: govinyl-backend
+    build: 
+      context: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: db_user
+      DB_PASSWORD: db_password
+      DB_NAME: govinyl_db
+  frontend:
+    image: govinyl-frontend
+    build: 
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      BACKEND_URL: http://localhost:8080
+    depends_on:
+      - backend
+  db:
+    image: postgres:18.0
+    ports:
+      - "5432:5432"   # expose to host for PgAdmin/psql access
+    environment:
+      POSTGRES_PASSWORD: db_password
+      POSTGRES_USER: db_user
+      POSTGRES_DB: govinyl_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U db_user -d govinyl_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - db_data:/var/lib/postgresql
+
+volumes:
+  db_data:
