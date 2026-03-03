@@ -1,4 +1,4 @@
-module govinyl-backend
+module govinyl
 
 go 1.25.0
 
